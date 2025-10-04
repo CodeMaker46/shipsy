@@ -10,6 +10,7 @@ import DashboardStats from "./components/DashboardStats";
 import MyShipments from "./components/MyShipments";
 import AllShipments from "./components/AllShipments";
 import DashboardNavbar from "./components/DashboardNavbar";
+import Chatbot from "./components/Chatbot";
 
 // Fake authentication hook
 const useAuth = () => {
@@ -49,6 +50,8 @@ const DashboardLayout = memo(({ children }) => {
       <div className="mt-25">
         {children}
       </div>
+      {/* Chatbot - only visible when user is logged in */}
+      <Chatbot />
     </div>
   );
 });

@@ -35,21 +35,21 @@ const ShipsyLanding = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-950 text-white   relative overflow-x-hidden">
+        <div className="min-h-screen w-full bg-slate-950 text-white overflow-x-hidden">
             {/* Animated Background */}
-            <div className="fixed inset-0 -z-10">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950 to-slate-950"></div>
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSg1OSwgMTMwLCAyNDYsIDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-40"></div>
+            <div className="fixed inset-0 w-full h-full -z-10">
+                <div className="absolute inset-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950 to-slate-950"></div>
+                <div className="absolute inset-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSg1OSwgMTMwLCAyNDYsIDAuMSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-40"></div>
             </div>
 
             {/* Floating Navigation */}
             <motion.nav 
-                className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%]"
+                className="fixed top-4 left-0 right-0 z-50 px-6"
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6 }}
             >
-                <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-full px-8 py-4 flex items-center justify-between shadow-2xl">
+                <div className="max-w-7xl mx-auto bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-full px-8 py-4 flex items-center justify-between shadow-2xl">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
                             <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,7 +78,7 @@ const ShipsyLanding = () => {
 
             {/* Hero Section */}
             <section className="relative pt-36 pb-24 px-6">
-                <div className="mx-auto">
+                <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-20">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -154,7 +154,7 @@ const ShipsyLanding = () => {
             </section>
 
             {/* Features Grid */}
-            <section className="py-20 px-4">
+            <section className="py-24 px-6">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-bold mb-4">Why Choose Shipsy?</h2>
@@ -167,7 +167,7 @@ const ShipsyLanding = () => {
                             { icon: "📍", title: "Real-time Tracking", desc: "Know where your packages are, always" },
                             { icon: "🛡️", title: "Secure & Safe", desc: "Insurance on every shipment" },
                             { icon: "💰", title: "Best Rates", desc: "Save up to 40% on shipping costs" },
-                            { icon: "🤝", title: "24/7 Support", desc: "We're here when you need us" },
+                            { icon: "🤖", title: "AI Assistant", desc: "Gemini-powered chatbot for instant help" },
                             { icon: "📊", title: "Analytics", desc: "Data-driven insights for growth" }
                         ].map((feature, idx) => (
                             <motion.div
@@ -182,6 +182,115 @@ const ShipsyLanding = () => {
                                 <p className="text-gray-400">{feature.desc}</p>
                             </motion.div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* AI Assistant Section */}
+            <section className="py-24 px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-cyan-500/10 border border-blue-500/20 rounded-3xl p-12 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+                        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+                        
+                        <div className="relative grid md:grid-cols-2 gap-12 items-center">
+                            <motion.div
+                                initial={{ opacity: 0, x: -30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6 }}
+                            >
+                                <div className="inline-flex items-center gap-2 bg-blue-500/20 border border-blue-500/30 rounded-full px-4 py-2 mb-6">
+                                    <span className="text-2xl">🤖</span>
+                                    <span className="text-sm text-blue-400 font-semibold">AI-POWERED</span>
+                                </div>
+                                
+                                <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                                    Meet Your AI
+                                    <br />
+                                    <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                                        Shipping Assistant
+                                    </span>
+                                </h2>
+                                
+                                <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                                    Powered by Gemini AI, our intelligent chatbot helps you manage shipments, track packages, and get instant answers 24/7.
+                                </p>
+
+                                <div className="space-y-4">
+                                    {[
+                                        "Instant shipment status updates",
+                                        "Smart route optimization suggestions",
+                                        "Automated problem resolution",
+                                        "Natural language queries"
+                                    ].map((item, idx) => (
+                                        <div key={idx} className="flex items-center gap-3">
+                                            <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                                <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                            </div>
+                                            <span className="text-gray-300">{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, x: 30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6 }}
+                                className="relative"
+                            >
+                                <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 shadow-2xl">
+                                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-700">
+                                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                                            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div className="font-bold">Shipsy AI Assistant</div>
+                                            <div className="text-sm text-green-400 flex items-center gap-2">
+                                                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                                Online
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <div className="flex gap-3">
+                                            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex-shrink-0"></div>
+                                            <div className="bg-slate-800 rounded-2xl rounded-tl-none px-4 py-3 max-w-xs">
+                                                <p className="text-sm text-gray-200">Hi! How can I help you today?</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-3 justify-end">
+                                            <div className="bg-blue-600 rounded-2xl rounded-tr-none px-4 py-3 max-w-xs">
+                                                <p className="text-sm text-white">Where is my shipment #SH12345?</p>
+                                            </div>
+                                            <div className="w-8 h-8 bg-slate-700 rounded-full flex-shrink-0"></div>
+                                        </div>
+
+                                        <div className="flex gap-3">
+                                            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex-shrink-0"></div>
+                                            <div className="bg-slate-800 rounded-2xl rounded-tl-none px-4 py-3 max-w-xs">
+                                                <p className="text-sm text-gray-200">Your shipment is currently in transit and will arrive tomorrow by 2 PM. Would you like real-time updates?</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-6 pt-4 border-t border-slate-700">
+                                        <div className="flex items-center gap-2 text-sm text-gray-400">
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                            </svg>
+                                            <span>Powered by Gemini AI</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
                 </div>
             </section>

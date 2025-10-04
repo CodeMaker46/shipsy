@@ -89,7 +89,7 @@ const CreateShipmentModal = ({ isOpen, onClose, onCreate }) => {
                 },
                 body: JSON.stringify({
                     title: form.title,
-                    status: form.status.toUpperCase(), // API expects uppercase
+                    status: form.status.toUpperCase(),
                     fragile: form.fragile === "Yes" ? "true" : "false",
                     weightKg: form.weight,
                     distanceKm: form.distance,
@@ -104,10 +104,10 @@ const CreateShipmentModal = ({ isOpen, onClose, onCreate }) => {
 
             const data = await response.json();
 
-            // Optional: Update parent state with new shipment
+            
             if (onCreate) onCreate(data);
 
-            // Reset and navigate
+            
             setForm({
                 title: "",
                 fragile: "No",
@@ -281,7 +281,7 @@ const CreateShipmentModal = ({ isOpen, onClose, onCreate }) => {
 
 export default CreateShipmentModal;
 
-// Animation style
+
 const style = document.createElement("style");
 style.innerHTML = `
     @keyframes scaleIn {

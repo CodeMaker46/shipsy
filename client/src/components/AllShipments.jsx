@@ -6,7 +6,7 @@ import { BACKEND_URL } from "../config/config";
 
 const STATUS_OPTIONS = ["NEW", "IN_TRANSIT", "DELIVERED", "CANCELLED"];
 
-// Loading Skeleton Components
+
 const SkeletonRow = () => (
     <tr className="border-b border-gray-200">
         <td className="px-6 py-4">
@@ -296,7 +296,7 @@ export default function AllShipments() {
                             )}
                         </div>
 
-                        {/* Clear Filters */}
+                        
                         {hasActiveFilters && !loading && (
                             <button
                                 onClick={clearFilters}

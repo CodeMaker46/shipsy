@@ -10,25 +10,45 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Middleware to parse incoming JSON requests
+// CORS must come BEFORE express.json() and routes
+// Note: When credentials are enabled, origin cannot be '*'.
+const allowedOrigins = [
+    'https://shipsy-five.vercel.app',
+    'http://localhost:5173',
+];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow non-browser requests (no origin) and known origins
+        if (!origin || allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200,
+}));
+
+// Explicitly enable preflight across routes (cors middleware will handle response)
+app.options('*', cors());
+
 app.use(express.json());
 
-app.use(cors());
+const port = process.env.PORT || 5001;
 
-const port = process.env.PORT || 5000;
+// Define routes BEFORE connecting to DB
+app.use('/', Home);
+app.use('/auth', Auth);
+app.use('/shipment', Shipment);
 
-// Connect to the database and then start the server
+// Connect to MongoDB and then start server
 connectToMongoDB().then(() => {
-    app.use('/', Home);
-    app.use('/auth', Auth);
-    app.use('/shipment', Shipment);
-
     app.listen(port, () => {
-        console.log(`✅ Server running at: http://localhost:${port}/`);
+        console.log(`Server running at: http://localhost:${port}/`);
     });
 }).catch((error) => {
-    app.get('*', (req, res) => {
-        res.send("☠️ Server is disconnected!!");
-        console.log("Server throwing error : ", error.message);
-    })
+    console.error("MongoDB connection error:", error.message);
+    process.exit(1); // Exit if DB connection fails
 });

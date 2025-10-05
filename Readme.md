@@ -2,11 +2,12 @@
 
 > A modern Shipment Management System built to streamline shipment tracking, status monitoring, and reporting. Shipsy provides real-time visibility into shipments with a clean dashboard, interactive statistics, secure authentication, and full CRUD capabilities.
 
+
 ## 🌟 Live Demo
 
-- client: 
-- server API: 
-- Postman Documentation: 
+- **Client:** [https://gleaming-torte-39a1a8.netlify.app/](https://gleaming-torte-39a1a8.netlify.app/)  
+- **Server API:** [https://shipsy-server.onrender.com](https://shipsy-server.onrender.com)  
+
 
 ## ✨ Features
 
@@ -115,7 +116,7 @@ shipsy/
 
 ### 1) Clone the repository
 ```bash
-git clone https://github.com/yourusername/shipsy.git
+git clone https://github.com/CodeMaker46/shipsy.git
 cd shipsy
 ```
 

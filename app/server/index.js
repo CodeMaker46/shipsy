@@ -11,28 +11,12 @@ dotenv.config();
 const app = express();
 
 // CORS must come BEFORE express.json() and routes
-const allowedOrigins = [
-    process.env.CLIENT_ORIGIN,
-    "https://shipsy-33zpsq39j-shikshak-kumars-projects.vercel.app",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-].filter(Boolean);
-
-const corsOptions = {
-    origin: function (origin, callback) {
-        // Allow requests with no origin like mobile apps or curl requests
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error("Not allowed by CORS"));
-    },
+app.use(cors({
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    // If allowedHeaders is omitted, the cors package reflects back the requested headers
-    credentials: true,
     optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+}));
+app.options("*", cors());
 
 app.use(express.json());
 

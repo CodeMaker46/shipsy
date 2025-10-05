@@ -11,28 +11,28 @@ dotenv.config();
 const app = express();
 
 // CORS must come BEFORE express.json() and routes
-// Note: When credentials are enabled, origin cannot be '*'.
 const allowedOrigins = [
-    'https://shipsy-five.vercel.app',
-    'http://localhost:5173',
-];
+    process.env.CLIENT_ORIGIN,
+    "https://shipsy-33zpsq39j-shikshak-kumars-projects.vercel.app/",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+].filter(Boolean);
 
-app.use(cors({
-    origin: (origin, callback) => {
-        // Allow non-browser requests (no origin) and known origins
-        if (!origin || allowedOrigins.includes(origin)) {
-            return callback(null, true);
-        }
-        return callback(new Error('Not allowed by CORS'));
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Allow requests with no origin like mobile apps or curl requests
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        return callback(new Error("Not allowed by CORS"));
     },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 200,
-}));
+    optionsSuccessStatus: 204,
+};
 
-// Explicitly enable preflight across routes (cors middleware will handle response)
-app.options('*', cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 

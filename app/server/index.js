@@ -10,10 +10,18 @@ dotenv.config();
 
 const app = express();
 
+// CORS should be enabled early and preflights should be handled
+const corsOptions = {
+    origin: true, // reflect request origin
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
+    optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 // ✅ Middleware to parse incoming JSON requests
 app.use(express.json());
-
-app.use(cors());
 
 const port = process.env.PORT || 5000;
 

@@ -1,0 +1,469 @@
+{
+	"info": {
+		"_postman_id": "b108821b-a7a2-4576-8111-d07c0fd5eaa1",
+		"name": "Shipsy API",
+		"description": "Postman collection for the Shipsy API, a shipment management system.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40326610"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						},
+						"description": "Create a new user account."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login to get a JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/fetch",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"fetch"
+							]
+						},
+						"description": "Fetch user data using a valid JWT token."
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints."
+		},
+		{
+			"name": "Shipment",
+			"item": [
+				{
+					"name": "Get All Shipments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/shipment/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shipment",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number for pagination.",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of items per page.",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "createdAt:desc",
+									"description": "Sort order, e.g., 'createdAt:asc' or 'cost:desc'.",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "some title",
+									"description": "Search term for shipment titles.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get a list of all shipments with optional pagination, sorting, and searching."
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Shipments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shipment/my",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shipment",
+								"my"
+							]
+						},
+						"description": "Get shipments created by the authenticated user. Requires JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shipment by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/shipment/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shipment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "shipment_id"
+								}
+							]
+						},
+						"description": "Get a single shipment by its ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Shipment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"New Shipment\",\n    \"fragile\": false,\n    \"weightKg\": 10,\n    \"distanceKm\": 100,\n    \"baseRate\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/shipment/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shipment",
+								""
+							]
+						},
+						"description": "Create a new shipment. Requires JWT token. The 'cost' is calculated by the server."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Shipment",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Shipment Title\",\n    \"status\": \"IN-TRANSIT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/shipment/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shipment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "shipment_id"
+								}
+							]
+						},
+						"description": "Update an existing shipment. Requires JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shipment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shipment/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shipment",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "shipment_id"
+								}
+							]
+						},
+						"description": "Delete a shipment by its ID. Requires JWT token."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing shipments."
+		},
+		{
+			"name": "AI",
+			"item": [
+				{
+					"name": "Analyze Shipments",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shipmentIds\": [\"id1\", \"id2\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ai/analyze",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ai",
+								"analyze"
+							]
+						},
+						"description": "Analyze shipment data with Gemini AI. Requires JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Get AI Suggestions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"context\": \"cost optimization\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ai/suggest",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ai",
+								"suggest"
+							]
+						},
+						"description": "Get AI-powered optimization suggestions. Requires JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "AI Chat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"What is the status of my shipment?\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ai/chat",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ai",
+								"chat"
+							]
+						},
+						"description": "Interactive chat with Gemini about shipments. Requires JWT token."
+					},
+					"response": []
+				},
+				{
+					"name": "Get AI Insights",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/ai/insights",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ai",
+								"insights"
+							]
+						},
+						"description": "Get AI-generated insights for the user's shipments. Requires JWT token."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for AI integration with Gemini."
+		},
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Home route of the API."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5001",
+			"type": "string",
+			"description": "The base URL of the Shipsy API."
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string",
+			"description": "JWT token for authenticated requests."
+		}
+	]
+}

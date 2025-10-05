@@ -169,6 +169,15 @@ export default function AllShipments() {
     const hasActiveFilters = searchTerm !== "" || selectedStatus !== "";
 
     useEffect(() => {
+        console.log({
+            shipments,
+            searchTerm,
+            selectedStatus,
+            filteredShipments,
+        })
+    }, [shipments, searchTerm, selectedStatus]);
+
+    useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             const token = localStorage.getItem("token");

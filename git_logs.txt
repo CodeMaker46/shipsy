@@ -1,0 +1,19 @@
+* 3d2aa99 (HEAD -> main, origin/main, origin/HEAD) dashboard stats bug fix
+* f768626 cors allow
+* 0378e9b cors allow
+* 9726286 added inages
+* f7ce233 added Readme.md and create shipment logic
+* 5242051 added the postman documentation into docs
+* b748b8a architecture added in docs
+* 810ac3a added vercel.json
+* 473422d added architecture.md inside docs
+* 93c2be9 structure fixed : more readable
+* 38f66d8 fixed createShipment modal and connected to backend
+* c87c4a2 connected backend to show all shipments
+* 5a78f36 documentation update
+* 01da00f added the ai usage documentation
+* 1fff3bf landing page bug resolve
+* fca4d21 chatbot add
+* 2bf27e7 updated client
+* 359d3fc added backend functionality
+* 0dd8597 project structure

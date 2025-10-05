@@ -98,7 +98,7 @@ export default function DashboardStats() {
     // Calculate counts dynamically
     const stats = [
         { label: "NEW", value: shipments.filter(s => s.status === "NEW").length, icon: Package },
-        { label: "IN_TRANSIT", value: shipments.filter(s => s.status === "IN_TRANSIT").length, icon: Clock },
+        { label: "IN_TRANSIT", value: shipments.filter(s => s.status === "IN-TRANSIT").length, icon: Clock },
         { label: "DELIVERED", value: shipments.filter(s => s.status === "DELIVERED").length, icon: CheckCircle },
         { label: "CANCELLED", value: shipments.filter(s => s.status === "CANCELLED").length, icon: TrendingUp },
     ];

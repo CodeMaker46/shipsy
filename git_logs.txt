@@ -1,4 +1,17 @@
-* 3d2aa99 (HEAD -> main, origin/main, origin/HEAD) dashboard stats bug fix
+* 87a7171 (HEAD -> main) index.js
+* ffc4611 (origin/main, origin/HEAD) index.js
+* c25f3f5 index.js fix
+* d6b15de index.js fix
+* e321cba index.js fix
+* 283f0f8 index.js fix
+* a17e52a index.js fix
+* 0b4465b index.js fix
+* 157f7c8 index.js fix
+* 25fae19 Update index.js
+* 3c77e01 Update index.js
+* 3c699a8 Update index.js cors issue fix
+* 3fe05e0 added images
+* 3d2aa99 dashboard stats bug fix
 * f768626 cors allow
 * 0378e9b cors allow
 * 9726286 added inages

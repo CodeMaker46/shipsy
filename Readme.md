@@ -5,8 +5,8 @@
 
 ## 🌟 Live Demo
 
-- **Client:** [https://gleaming-torte-39a1a8.netlify.app/](https://gleaming-torte-39a1a8.netlify.app/)  
-- **Server API:** [https://shipsy-server.onrender.com](https://shipsy-server.onrender.com)  
+- **Client:** [https://voluble-lokum-7455da.netlify.app/](https://voluble-lokum-7455da.netlify.app/)  
+- **Server API:** [https://ship-server-11lf.onrender.com](https://ship-server-11lf.onrender.com)  
 
 
 ## ✨ Features
@@ -127,8 +127,8 @@ npm install
 ```
 Create `.env` in `app/server/`:
 ```env
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/shipsy
-JWT_SECRET=your_super_secret_jwt_key_here_make_it_long_and_random
+MONGODB_URI=
+JWT_SECRET=
 PORT=5001
 ```
 Run the server:
@@ -167,14 +167,27 @@ npm run dev
 | `/shipment/:id` | PATCH | Update shipment | ✅ |
 | `/shipment/:id` | DELETE | Delete shipment | ✅ |
 
-## 🖼️ Screenshots
+## 🖼️ Demo
 
-Place screenshots under `docs/images/` (optional) and reference them here.
+## Landing Pages
+![Landing Page 1](images/landing1.png)
+![Landing Page 2](images/landing2.png)
+![Landing Page 3](images/landing3.png)
+![Landing Page 4](images/landing4.png)
+![Landing Page 5](images/landing5.png)
 
-- Landing Page – `docs/images/landing.png`
-- Dashboard – `docs/images/dashboard.png`
-- My Shipments – `docs/images/myshipments.png`
-- All Shipments – `docs/images/allshipments.png`
+## Dashboard
+![Dashboard 1](images/dashboard1.png)
+![Dashboard 2](images/dashboard2.png)
+
+## All Shipments
+![All Shipments View 1](images/allShipments1.png)
+![All Shipments View 2](images/allShipments2.png)
+![All Shipments View 3](images/allShipments3.png)
+
+## My Shipments
+![My Shipment 1](images/myShipment1.png)
+![My Shipment 2](images/myShipment2.png)
 
 ## 🤝 Contributing
 
@@ -201,7 +214,7 @@ Guidelines
 
 ### Backend (.env)
 ```env
-MONGODB_URI=your_mongodb_atlas_connection_string
+MONGODB_URI=your_mongob_atlas_connection_string
 JWT_SECRET=your_jwt_secret_key
 PORT=5001
 ```

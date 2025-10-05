@@ -12,6 +12,7 @@ const router = Router();
 router.post("/signup", async (req, res) => {
     try {
         const { username, password } = req.body;
+        console.log('[AUTH/signup] Incoming payload keys:', Object.keys(req.body || {}));
 
         if (!username || !password) {
             return res.status(400).json({ message: "Username and password are required" });
@@ -26,6 +27,7 @@ router.post("/signup", async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUser = await User.create({ username, passwordHash });
+        console.log('[AUTH/signup] User created with id:', newUser._id?.toString());
 
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
@@ -34,7 +36,7 @@ router.post("/signup", async (req, res) => {
             token,
         });
     } catch (err) {
-        console.error("Signup error:", err);
+        console.error("[AUTH/signup] Error:", err?.message || err);
         res.status(500).json({ message: "Internal server error" });
     }
 });
@@ -43,6 +45,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
+        console.log('[AUTH/login] Incoming payload keys:', Object.keys(req.body || {}));
 
         const user = await User.findOne({ username });
         if (!user) return res.status(401).json({ message: "Invalid credentials" });
@@ -53,7 +56,7 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
         res.json({ token });
     } catch (err) {
-        console.error("Login error:", err);
+        console.error("[AUTH/login] Error:", err?.message || err);
         res.status(500).json({ message: "Internal server error" });
     }
 });

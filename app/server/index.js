@@ -10,27 +10,28 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.json());
-
+// CORS must come BEFORE express.json() and routes
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true
 }));
 
+app.use(express.json());
+
 const port = process.env.PORT || 5001;
 
-connectToMongoDB().then(() => {
-    app.use('/', Home);
-    app.use('/auth', Auth);
-    app.use('/shipment', Shipment);
+// Define routes BEFORE connecting to DB
+app.use('/', Home);
+app.use('/auth', Auth);
+app.use('/shipment', Shipment);
 
+// Connect to MongoDB and then start server
+connectToMongoDB().then(() => {
     app.listen(port, () => {
         console.log(`Server running at: http://localhost:${port}/`);
     });
 }).catch((error) => {
-    app.get('*', (req, res) => {
-        res.send(" Server is disconnected!!");
-        console.log("Server throwing error : ", error.message);
-    })
+    console.error("MongoDB connection error:", error.message);
+    process.exit(1); // Exit if DB connection fails
 });

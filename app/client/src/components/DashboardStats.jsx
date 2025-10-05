@@ -162,7 +162,10 @@ export default function DashboardStats() {
                 <CreateShipmentModal
                     isOpen={isCreateModalOpen}
                     onClose={() => setIsCreateModalOpen(false)}
-                    onCreate={() => setIsCreateModalOpen(false)}
+                    onCreate={(newShipment) => {
+                        setShipments(prevShipments => [newShipment, ...prevShipments]);
+                        setIsCreateModalOpen(false);
+                    }}
                 />
         </div>
     );

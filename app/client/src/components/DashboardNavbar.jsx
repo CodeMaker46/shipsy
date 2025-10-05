@@ -125,7 +125,12 @@ const DashboardNavbar = ({ activeTab: propActiveTab, setActiveTab: propSetActive
         <div className="fixed top-0 left-0 w-full px-4 sm:px-6 lg:px-8 pt-4 z-50 bg-[#F9F6F3]">
             <nav className="relative flex items-center justify-between px-6 py-3 rounded-3xl modern-glass border border-gray-200 shadow-lg">
                 {/* Logo */}
-                <div className="flex items-center gap-3 z-10">
+                <div
+                    className="flex items-center gap-3 z-10 cursor-pointer"
+                    onClick={() => navigate('/')}
+                    role="button"
+                    aria-label="Go to landing page"
+                >
                     <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-400 via-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                             <path d="M3 7V17C3 18.1 3.9 19 5 19H19C20.1 19 21 18.1 21 17V7" stroke="white" strokeWidth="2" strokeLinecap="round" />

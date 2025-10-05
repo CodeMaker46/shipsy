@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import api from '../config/config';
 
 const ShipsyLanding = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -7,6 +10,7 @@ const ShipsyLanding = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate();
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => {
@@ -26,12 +30,33 @@ const ShipsyLanding = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        // Simulate API call
-        setTimeout(() => {
-            console.log(isLogin ? 'Login' : 'Signup', { username, password });
+        const url = isLogin ? '/auth/login' : '/auth/signup';
+        try {
+            const response = await api.post(url, { username, password });
+            const data = response.data;
+            if (response.status === 200 || response.status === 201) {
+                if (isLogin) {
+                    localStorage.setItem('token', data.token);
+                    toast.success('Login successful!');
+                    navigate('/dashboard');
+                } else {
+                    toast.success('Signup successful! Please login.');
+                    setIsLogin(true);
+                }
+            } else {
+                toast.error(data.message || 'An error occurred.');
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to connect to the server.');
+        } finally {
             setIsSubmitting(false);
-            handleCloseModal();
-        }, 1500);
+            if (!isLogin) {
+                setUsername("");
+                setPassword("");
+            } else {
+                handleCloseModal();
+            }
+        }
     };
 
     return (
@@ -60,9 +85,9 @@ const ShipsyLanding = () => {
                     </div>
                     
                     <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
-                        <a href="#features" className="hover:text-white transition-colors">Features</a>
-                        <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
-                        <a href="#about" className="hover:text-white transition-colors">About</a>
+                        <button onClick={() => navigate('/features')} className="hover:text-white transition-colors cursor-pointer">Features</button>
+                        <button onClick={() => navigate('/pricing')} className="hover:text-white transition-colors cursor-pointer">Pricing</button>
+                        <button onClick={() => navigate('/about')} className="hover:text-white transition-colors cursor-pointer">About</button>
                     </div>
 
                     <motion.button

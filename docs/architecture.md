@@ -6,24 +6,24 @@ This application is a **Shipment Management System** built to fulfill the Shipsy
 * **CRUD** for a `Shipment` entity (text, enum, boolean, calculated field)
 * **Pagination, filtering, search, sorting**
 * **Protected API** and **Protected frontend routes**
-* **Swagger API documentation**
-* **AI Integration** with Google Gemini for intelligent shipment insights
+* **API documentation** via Postman collection (docs/ShipsyAPI.postman_collection.json)
+* **AI Integration (Frontend)** with Google Gemini for intelligent shipment insights
 
 ## 2. Tech Stack
 ### Frontend
 * Vite + React (JavaScript)
 * Tailwind CSS for styling
 * React Router for client-side routing
-* React Query for server state management and caching
-* Google Gemini API for AI-powered features
+* Framer Motion for animations
+* React Toastify for notifications
+* Google Gemini API (client-side) for AI-powered features
 
 ### Backend
 * Node.js + Express.js
 * MongoDB (Atlas) + Mongoose ORM
 * JWT for authentication
 * bcrypt for password hashing
-* swagger-ui-express + YAML for API docs
-* Google Gemini API integration
+* CORS middleware
 
 ## 3. Entity: `Shipment`
 ### Fields:
@@ -40,35 +40,28 @@ This application is a **Shipment Management System** built to fulfill the Shipsy
 | `updatedAt` | Date | Auto | Timestamp |
 
 ## 4. Module Breakdown
-### Frontend (`apps/frontend/`)
-* `Public/` - logo and Mp4
-* `src/config/` - exports VITE_SERVER_URL and Gemini API configuration
+### Frontend (`app/client/`)
+* `public/` - logo and Mp4
+* `src/config/` - exports `VITE_BACKEND_URL` and axios instance
 * `src/components/` – 
-  * AllShipments, MyShipments, ShipmentTables, ShipmentActions, Create/Delete/Edit Shipment
-  * Landing and Dashboard Section with Login and Signup
-  * Pagination
-  * ProtectedRoutes
-  * **AI Components:**
-    * ShipmentInsights - AI-powered analytics and recommendations
-    * GeminiChat - Interactive chat interface for shipment queries
-    * SmartSuggestions - Intelligent shipment optimization suggestions
+  * AllShipments, MyShipments, ShipmentTable, ShipmentAction, Create/Delete/Edit Shipment
+  * Landing, Dashboard, Navbar, Stats, Pagination, Chatbot
+  * Features, Pricing, About (public marketing pages)
+  * AI: Chatbot in the frontend calls Gemini directly (no backend AI endpoints)
 
-### Backend (`apps/backend/`)
+### Backend (`app/server/`)
 * `config/db.js` – Connects to MongoDB
-* `config/gemini.js` – Gemini API configuration and initialization
 * `middleware/auth.js` – JWT validation
 * `models/`
   * `User.js` – User Schema
   * `Shipment.js` – Shipment schema
 * `routes/`
   * `Auth.js` – Login, Signup and fetch User with token
-  * `shipment.js` – CRUD operation on Shipment Schema
-  * `ai.js` – Gemini AI integration endpoints
-* `services/`
-  * `geminiService.js` – Handles Gemini API interactions
+  * `Shipment.js` – CRUD operations on Shipment Schema
+  * `Home.js` – health/info endpoints
 * `index.js` – Starts server
 
-## 5. API Endpoints
+## 5. API Endpoints (Backend)
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/` | GET | Home Route |
@@ -81,10 +74,7 @@ This application is a **Shipment Management System** built to fulfill the Shipsy
 | `/shipment/` | POST | Create a shipment |
 | `/shipment/:id` | PATCH | Update a shipment |
 | `/shipment/:id` | DELETE | Delete a shipment |
-| `/ai/analyze` | POST | Analyze shipment data with Gemini |
-| `/ai/suggest` | POST | Get AI-powered optimization suggestions |
-| `/ai/chat` | POST | Interactive chat with Gemini about shipments |
-| `/ai/insights` | GET | Get AI-generated insights for user's shipments |
+
 
 ## 6. Data Flow
 ### Login Flow:
@@ -96,17 +86,15 @@ This application is a **Shipment Management System** built to fulfill the Shipsy
 ### CRUD Flow (example Create):
 1. User fills shipment form → frontend sends POST `/shipments`
 2. Backend calculates `cost` server-side and saves to MongoDB
-3. Returns created shipment → React Query updates cache → UI updates
+3. Returns created shipment → UI re-fetches list and updates
 
-### AI Integration Flow:
-1. User requests AI insights/suggestions → frontend sends request to `/ai/*` endpoint
-2. Backend gathers relevant shipment data from MongoDB
-3. Backend sends structured prompt to Gemini API with shipment context
-4. Gemini processes data and returns insights/suggestions/answers
-5. Backend formats response → frontend displays AI-generated content
-6. React Query caches AI responses for performance
+### AI Integration Flow (Frontend-only):
+1. User opens the Chatbot in the frontend
+2. Frontend collects necessary context from the current UI (e.g., selected shipment)
+3. Frontend sends the prompt directly to the Google Gemini API using a client API key
+4. Gemini returns the response → frontend renders it in the chat/insights UI
 
-## 7. Gemini AI Features
+## 7. Gemini AI Features (Frontend)
 ### Implemented AI Capabilities:
 * **Shipment Analysis**: Analyze patterns, costs, and efficiency across all shipments
 * **Smart Suggestions**: Get recommendations for route optimization and cost reduction
@@ -117,16 +105,14 @@ This application is a **Shipment Management System** built to fulfill the Shipsy
 
 ### Gemini API Integration:
 * Model: `gemini-2.0-flash-exp`
-* Authentication: API key stored in environment variables
-* Rate limiting: Implemented to prevent API quota exhaustion
+* Authentication: Client API key via `VITE_GEMINI_API_KEY` (if enabled)
 * Error handling: Graceful fallbacks when AI service is unavailable
-* Caching: AI responses cached to reduce API calls
 
 ## 8. Deployment Architecture
 ### Frontend
 * Built with Vite → Deployed to **Vercel**
 * Environment variables:
-  * `VITE_SERVER_URL` points to backend URL
+  * `VITE_BACKEND_URL` points to backend URL
   * `VITE_GEMINI_API_KEY` for client-side AI features (optional)
 
 ### Backend
@@ -136,15 +122,13 @@ This application is a **Shipment Management System** built to fulfill the Shipsy
   * `MONGODB_URI`
   * `JWT_SECRET`
   * `PORT`
-  * `GEMINI_API_KEY`
 
 ## 9. Security
 * JWT for route protection
 * Passwords stored as bcrypt hashes
 * Pagination limits to prevent large query abuse
-* Gemini API key secured in environment variables
-* AI endpoints protected with JWT authentication
-* Input sanitization for AI prompts to prevent injection attacks
+* If Gemini is enabled on the client, the API key is stored in frontend env (`VITE_GEMINI_API_KEY`) and not exposed in backend
+* Input sanitization for prompts on the client to prevent injection attacks
 
 ## 10. Documentation
 * **Swagger UI** available at `/docs` endpoint
@@ -157,38 +141,22 @@ This application is a **Shipment Management System** built to fulfill the Shipsy
 ```
 [Frontend: Vite+React]
         |
-        ├─→ [React Query Cache]
-        |
         v
-[Backend: Express API] ──→ [Swagger UI /docs]
+[Backend: Express API]
         |
-        ├─→ [MongoDB Atlas]
-        |
-        └─→ [Google Gemini API]
-                |
-                └─→ AI Services:
-                    - Analysis
-                    - Suggestions
-                    - Chat
-                    - Insights
+        └─→ [MongoDB Atlas]
+
+[Frontend Chatbot] ──→ [Google Gemini API]
+        (client-side)
 ```
 
-## 12. AI Integration Architecture
+## 12. AI Integration Architecture (Frontend-only)
 ```
-User Request
+User (in app)
      ↓
-Protected Route (JWT)
+Frontend Chatbot (context from UI)
      ↓
-AI Controller
+Google Gemini API (client key)
      ↓
-Gemini Service
-     ↓
-     ├─→ Fetch Shipment Data (MongoDB)
-     ├─→ Format Prompt with Context
-     ├─→ Call Gemini API
-     └─→ Process & Format Response
-     ↓
-Cache Response (React Query)
-     ↓
-Return to Frontend
+Response rendered in UI
 ```

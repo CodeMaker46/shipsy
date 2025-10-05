@@ -11,6 +11,9 @@ import MyShipments from "./components/MyShipments";
 import AllShipments from "./components/AllShipments";
 import DashboardNavbar from "./components/DashboardNavbar";
 import Chatbot from "./components/Chatbot";
+import Features from "./components/Features";
+import Pricing from "./components/Pricing";
+import About from "./components/About";
 
 // Fake authentication hook
 const useAuth = () => {
@@ -22,7 +25,7 @@ const useAuth = () => {
 const ProtectedRoute = ({ children }) => {
   // const isAuth = true;
   const isAuth = useAuth();
-  return isAuth ? children : <Navigate to="/login" replace />;
+  return isAuth ? children : <Navigate to="/" replace />;
 };
 
 // Dashboard Layout Component
@@ -83,6 +86,48 @@ function AnimatedRoutes() {
               transition={{ duration: 0.3 }}
             >
               <ShipsyLanding />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/features"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <Features />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/pricing"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <Pricing />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <About />
             </motion.div>
           }
         />

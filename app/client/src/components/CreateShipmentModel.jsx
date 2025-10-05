@@ -89,12 +89,11 @@ const CreateShipmentModal = ({ isOpen, onClose, onCreate }) => {
                 },
                 body: JSON.stringify({
                     title: form.title,
-                    status: form.status.toUpperCase(),
-                    fragile: form.fragile === "Yes" ? "true" : "false",
-                    weightKg: form.weight,
-                    distanceKm: form.distance,
-                    baseRate: form.baseRate,
-                    createdBy: username,
+                    status: form.status.replace("-", " ").toUpperCase().replace(" ", "-"),
+                    fragile: form.fragile === "Yes",
+                    weightKg: parseFloat(form.weight),
+                    distanceKm: parseFloat(form.distance),
+                    baseRate: parseFloat(form.baseRate),
                 }),
             });
 
@@ -103,8 +102,6 @@ const CreateShipmentModal = ({ isOpen, onClose, onCreate }) => {
             }
 
             const data = await response.json();
-
-            
             if (onCreate) onCreate(data);
 
             

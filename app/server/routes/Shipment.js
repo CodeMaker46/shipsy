@@ -1,10 +1,24 @@
 import { Router } from "express";
-import Shipment from "../models/shipment.js";
+import Shipment from "../models/Shipment.js";
 import User from "../models/User.js";
 import auth from "../middleware/auth.js";
 
 const router = Router();
 router.use(auth);
+
+// Get all shipments (for all users)
+router.get("/", async (req, res) => {
+    try {
+        const shipments = await Shipment.find({}).sort({ createdAt: -1 });
+        res.json({
+            data: shipments,
+            total: shipments.length
+        });
+    } catch (err) {
+        console.error("Error fetching shipments:", err);
+        return res.status(500).json({ message: err.message });
+    }
+});
 
 router.get("/my", async (req, res) => {
     try {

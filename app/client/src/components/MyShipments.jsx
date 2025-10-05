@@ -3,6 +3,8 @@ import { Package, Search, X, ChevronDown } from "lucide-react";
 import ShipmentsTable from "./ShipmentTable";
 import Pagination from "./Pagination";
 import { BACKEND_URL } from "../config/config";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import EditShipmentModal from "./EditShipmentModal";
 
 const STATUS_OPTIONS = ["NEW", "IN_TRANSIT", "DELIVERED", "CANCELLED"];
 
@@ -91,9 +93,45 @@ export default function MyShipments() {
     const [selectedStatus, setSelectedStatus] = useState("");
     const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
 
-    const handleEditShipment = (id) => console.log("Edit shipment", id);
-    const handleDeleteShipment = (id) =>
-        setShipments((prev) => prev.filter((s) => s.id !== id));
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [selectedEditShipment, setSelectedEditShipment] = useState(null);
+
+    const handleEditShipment = (id) => {
+        const toEdit = shipments.find(s => s.id === id) || null;
+        setSelectedEditShipment(toEdit);
+        setIsEditOpen(true);
+    };
+
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [selectedDeleteId, setSelectedDeleteId] = useState(null);
+
+    const handleDeletePrompt = (id) => {
+        setSelectedDeleteId(id);
+        setIsDeleteOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!selectedDeleteId) return;
+        try {
+            const token = localStorage.getItem("token");
+            const resp = await fetch(`${BACKEND_URL}/shipment/${selectedDeleteId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": token,
+                },
+            });
+            if (!resp.ok) {
+                throw new Error(`Failed with status ${resp.status}`);
+            }
+            setShipments((prev) => prev.filter((s) => s.id !== selectedDeleteId));
+        } catch (e) {
+            console.error("Delete failed", e);
+        } finally {
+            setIsDeleteOpen(false);
+            setSelectedDeleteId(null);
+        }
+    };
 
     const clearFilters = () => {
         setSearchTerm("");
@@ -135,12 +173,13 @@ export default function MyShipments() {
             setLoading(true);
             const token = localStorage.getItem("token");
             try {
-                const response = await fetch(`${BACKEND_URL}/shipment/`, {
+                const response = await fetch(`${BACKEND_URL}/shipment/my`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": token,
                     },
+                    cache: 'no-store'
                 });
 
                 if (!response.ok) {
@@ -150,59 +189,21 @@ export default function MyShipments() {
                 const result = await response.json();
                 const normalized = (result.data || []).map(s => ({
                     id: s._id,
-                    title: s.title,
+                    title: s.title || (s._id ? `Shipment ${String(s._id).slice(-6)}` : "Untitled"),
                     createdBy: s.createdBy?.username || "Unknown",
                     fragile: s.fragile,
-                    status: s.status,
+                    status: typeof s.status === 'string' ? s.status.replace('-', '_') : s.status,
                     weight: s.weightKg,
                     distance: s.distanceKm,
                     basePrice: s.baseRate,
                     cost: s.cost,
                     createdAt: s.createdAt,
-                }));
+                })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
                 setShipments(normalized);
             } catch (error) {
                 console.error("Error fetching data:", error);
-                // Set fallback data in case of error for demo purposes
-                setShipments([
-                    {
-                        id: "SH001",
-                        title: "My Personal Shipment",
-                        createdBy: "Alex Chen",
-                        fragile: true,
-                        status: "NEW",
-                        weight: 12.5,
-                        distance: 350,
-                        basePrice: 150.0,
-                        cost: 175.0,
-                        createdAt: "2025-08-14",
-                    },
-                    {
-                        id: "SH002",
-                        title: "Electronics Package",
-                        createdBy: "Alex Chen",
-                        fragile: false,
-                        status: "IN_TRANSIT",
-                        weight: 80,
-                        distance: 1200,
-                        basePrice: 500,
-                        cost: 550,
-                        createdAt: "2025-08-12",
-                    },
-                    {
-                        id: "SH003",
-                        title: "Furniture Delivery",
-                        createdBy: "Alex Chen",
-                        fragile: false,
-                        status: "DELIVERED",
-                        weight: 200,
-                        distance: 800,
-                        basePrice: 800,
-                        cost: 900,
-                        createdAt: "2025-08-10",
-                    },
-                ]);
+                setShipments([]);
             } finally {
                 setLoading(false);
             }
@@ -212,6 +213,7 @@ export default function MyShipments() {
     }, []);
 
     return (
+        <>
         <div className="min-h-screen bg-gray-50 p-6">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
@@ -305,7 +307,7 @@ export default function MyShipments() {
                         <ShipmentsTable
                             shipments={paginatedShipments}
                             onEdit={handleEditShipment}
-                            onDelete={handleDeleteShipment}
+                            onDelete={handleDeletePrompt}
                             myshipment={true}
                         />
                         <Pagination
@@ -328,5 +330,30 @@ export default function MyShipments() {
                     </div>
                 )}
         </div>
+        <DeleteConfirmationModal
+            isOpen={isDeleteOpen}
+            onCancel={() => { setIsDeleteOpen(false); setSelectedDeleteId(null); }}
+            onConfirm={confirmDelete}
+        />
+        <EditShipmentModal
+            isOpen={isEditOpen}
+            shipment={selectedEditShipment}
+            onClose={() => { setIsEditOpen(false); setSelectedEditShipment(null); }}
+            onSave={(updated) => {
+                setShipments(prev => prev.map(s => s.id === updated._id ? {
+                    id: updated._id,
+                    title: updated.title,
+                    createdBy: updated.createdBy?.username || "Unknown",
+                    fragile: updated.fragile,
+                    status: typeof updated.status === 'string' ? updated.status.replace('-', '_') : updated.status,
+                    weight: updated.weightKg,
+                    distance: updated.distanceKm,
+                    basePrice: updated.baseRate,
+                    cost: updated.cost,
+                    createdAt: updated.createdAt,
+                } : s));
+            }}
+        />
+        </>
     );
 };

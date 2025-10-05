@@ -77,12 +77,11 @@ const EditShipmentModal = ({ isOpen, onClose, onSave, shipment }) => {
                 },
                 body: JSON.stringify({
                     title: form.title,
-                    status: form.status.toUpperCase(),
-                    fragile: form.fragile === "Yes" ? "true" : "false",
-                    weightKg: form.weight,
-                    distanceKm: form.distance,
-                    baseRate: form.baseRate,
-                    createdBy: shipment.createdBy, // preserve creator
+                    status: form.status.replace("-", " ").toUpperCase().replace(" ", "-"),
+                    fragile: form.fragile === "Yes",
+                    weightKg: parseFloat(form.weight),
+                    distanceKm: parseFloat(form.distance),
+                    baseRate: parseFloat(form.baseRate),
                 }),
             });
 
@@ -111,7 +110,7 @@ const EditShipmentModal = ({ isOpen, onClose, onSave, shipment }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 pt-20 overflow-y-auto">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-transparent backdrop-blur-sm px-4 pt-20 overflow-y-auto">
             {/* Added py-12 here to give top/bottom margin */}
             <div className="relative bg-white rounded-2xl shadow-2xl p-8 w-full max-w-3xl transform transition-all duration-300 scale-95 opacity-0 animate-scaleIn">
                 <div className="overflow-y-auto m-2 p-2">
@@ -238,7 +237,7 @@ const EditShipmentModal = ({ isOpen, onClose, onSave, shipment }) => {
                         <button
                             onClick={handleSubmit}
                             disabled={isSubmitting}
-                            className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+                            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed transition-colors flex items-center justify-center"
                         >
                             {isSubmitting ? (
                                 <>
@@ -246,7 +245,7 @@ const EditShipmentModal = ({ isOpen, onClose, onSave, shipment }) => {
                                     <span>Saving...</span>
                                 </>
                             ) : (
-                                <span>Save Canges</span>
+                                <span>Save Changes</span>
                             )}
                         </button>
                     </div>

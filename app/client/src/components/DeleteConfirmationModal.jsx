@@ -4,7 +4,7 @@ const DeleteConfirmationModal = ({ isOpen, onCancel, onConfirm }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-sm z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Confirm Deletion</h3>
                 <p className="text-gray-600 mb-6">Are you sure you want to delete this shipment?</p>

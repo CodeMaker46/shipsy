@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 // CORS should be enabled early and preflights should be handled
 const corsOptions = {
-    origin: true, // reflect request origin
+    origin: ["https://shipsy-psi.vercel.app", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
     optionsSuccessStatus: 204,
